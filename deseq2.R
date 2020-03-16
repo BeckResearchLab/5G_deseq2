@@ -18,6 +18,7 @@ coldata <- coldata[,c(1, 2)]
 head(as.data.frame(coldata))
 
 colnames(countdata)[colnames(countdata) %notin% rownames(coldata)]
+rownames(coldata)[rownames(coldata) %notin% colnames(countdata)]
 all(colnames(countdata) %in% rownames(coldata))
 all(rownames(coldata) %in% colnames(countdata))
 all(rownames(coldata) == colnames(countdata))
