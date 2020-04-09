@@ -27,5 +27,18 @@ all(rownames(coldata) == colnames(countdata))
 dds <- DESeqDataSetFromMatrix(countData=countdata, colData=coldata, design=~exp_condition)
 dds
 
+exp_conds = dds$exp_condition
+for (exp_cond in levels(exp_conds)) {
+	print(paste("CONDITION ========= ", exp_cond, sep=' '))
+	dds$exp_condition <- relevel(dds$exp_condition, ref=exp_cond)
+	dds <- DESeq(dds)
+	for (result in resultsNames(dds)) {
+		print(paste(result))
+		res <- results(dds, name=result)
+		write.table(res, file=paste(result,".tsv", sep=''), append=FALSE, quote=FALSE, sep="\t", row.names=TRUE, col.names=TRUE)
+	}
+}
+
 # Run the DESeq pipeline
-dds <- DESeq(dds)
+#dds <- DESeq(dds)
+
